@@ -92,7 +92,7 @@ Taskmgr_EXTERNAL_OBJECTS =
 
 Taskmgr: CMakeFiles/Taskmgr.dir/main.cpp.o
 Taskmgr: CMakeFiles/Taskmgr.dir/build.make
-Taskmgr: sqlite/libsqlite.a
+Taskmgr: sha256/libsha256.a
 Taskmgr: CMakeFiles/Taskmgr.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable Taskmgr"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Taskmgr.dir/link.txt --verbose=$(VERBOSE)

@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/Taskmgr.dir/main.cpp.o -o Taskmgr  -lcrypto sqlite/libsqlite.a 
+/usr/bin/c++ CMakeFiles/Taskmgr.dir/main.cpp.o -o Taskmgr  -lcrypto -lsqlite3 sha256/libsha256.a 

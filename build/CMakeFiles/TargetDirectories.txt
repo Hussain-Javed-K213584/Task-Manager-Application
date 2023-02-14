@@ -1,6 +1,6 @@
 /home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles/Taskmgr.dir
 /home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles/edit_cache.dir
 /home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles/rebuild_cache.dir
-/home/mrrobogen/Desktop/Task-Manager-Application/build/sqlite/CMakeFiles/sqlite.dir
-/home/mrrobogen/Desktop/Task-Manager-Application/build/sqlite/CMakeFiles/edit_cache.dir
-/home/mrrobogen/Desktop/Task-Manager-Application/build/sqlite/CMakeFiles/rebuild_cache.dir
+/home/mrrobogen/Desktop/Task-Manager-Application/build/sha256/CMakeFiles/sha256.dir
+/home/mrrobogen/Desktop/Task-Manager-Application/build/sha256/CMakeFiles/edit_cache.dir
+/home/mrrobogen/Desktop/Task-Manager-Application/build/sha256/CMakeFiles/rebuild_cache.dir

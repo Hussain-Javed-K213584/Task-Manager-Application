@@ -11,7 +11,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.25.1/CMakeCCompiler.cmake"
   "CMakeFiles/3.25.1/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.25.1/CMakeSystem.cmake"
-  "/home/mrrobogen/Desktop/Task-Manager-Application/sqlite/CMakeLists.txt"
+  "/home/mrrobogen/Desktop/Task-Manager-Application/sha256/CMakeLists.txt"
   "/usr/share/cmake-3.25/Modules/CMakeCInformation.cmake"
   "/usr/share/cmake-3.25/Modules/CMakeCXXInformation.cmake"
   "/usr/share/cmake-3.25/Modules/CMakeCommonLanguageInclude.cmake"
@@ -44,11 +44,11 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
-  "sqlite/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "sha256/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/Taskmgr.dir/DependInfo.cmake"
-  "sqlite/CMakeFiles/sqlite.dir/DependInfo.cmake"
+  "sha256/CMakeFiles/sha256.dir/DependInfo.cmake"
   )

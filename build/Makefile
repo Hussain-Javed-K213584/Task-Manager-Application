@@ -130,17 +130,17 @@ Taskmgr/fast:
 .PHONY : Taskmgr/fast
 
 #=============================================================================
-# Target rules for targets named sqlite
+# Target rules for targets named sha256
 
 # Build rule for target.
-sqlite: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sqlite
-.PHONY : sqlite
+sha256: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sha256
+.PHONY : sha256
 
 # fast build rule for target.
-sqlite/fast:
-	$(MAKE) $(MAKESILENT) -f sqlite/CMakeFiles/sqlite.dir/build.make sqlite/CMakeFiles/sqlite.dir/build
-.PHONY : sqlite/fast
+sha256/fast:
+	$(MAKE) $(MAKESILENT) -f sha256/CMakeFiles/sha256.dir/build.make sha256/CMakeFiles/sha256.dir/build
+.PHONY : sha256/fast
 
 main.o: main.cpp.o
 .PHONY : main.o
@@ -175,7 +175,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Taskmgr"
-	@echo "... sqlite"
+	@echo "... sha256"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

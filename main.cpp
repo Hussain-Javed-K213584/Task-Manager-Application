@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <string>
 #include <sys/stat.h>
-#include <openssl/sha.h>
+#include "sha256/sha256.h"
 #include <sqlite3.h>
 
 // #include "sqlite/sqlite3.h" //For database
@@ -33,23 +33,16 @@ inline bool file_exist(const string &name)
 class Manager
 {
     string username, passwd;
-    const char *d = "hello";
-    unsigned char md[10];
 public:
     Manager() {}
     void Authentication()
     {
-        SHA1((unsigned char*)d, 10, md);
         cout << "Input your username: ";
         getline(cin, username);
         cout << "Input your password: ";
         getline(cin, passwd);
-        for (unsigned char x: md)
-        {
-            cout << x;
-        }
-        cout << endl;
-        cout << "Inserting into database..\n";
+        cout << "The password is: " << passwd
+        << "\nThe password sha256 hash is: " << sha256(passwd);
         //TODO: Insert data to database, make sure that you use hashing for the password
     }
 };
@@ -58,28 +51,33 @@ int main(void)
 {
     sqlite3 *db;
     Manager task;
-    task.Authentication();
-    const string name = "Database/users.db";
+    // task.Authentication();
+    string pwd_home = getenv("HOME"); //Provides home directory path
+    const string file_name = pwd_home + "/Desktop/Task-Manager-Application/Database/users.db"; //Path to database file
+    const string dir_name = pwd_home + "/Desktop/Task-Manager-Application/Database"; //Database directory name
+    cout << dir_name << endl;
     /*
         For checking if database exists or not
         If database file does not exist, one should be created
         sqlite3 reference: https://www.tutorialspoint.com/sqlite/sqlite_c_cpp.htm
     */
-    if (!file_exist(name)){
-        system("mkdir Database && touch Database/users.db");
-        char* sql = "CREATE TABLE users(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEST NOT NULL, password TEXT NOT NULL)"; //SQL query to create a table
+    if (!file_exist(dir_name)){
+        string command = "mkdir ";
+        command += dir_name + " && touch" + file_name; //The final comand to make the directory and file 
+        system(command.c_str());
+        string sql = "CREATE TABLE users(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEST NOT NULL, password TEXT NOT NULL)"; //SQL query to create a table
         int rc;
-        rc = sqlite3_open("Database/users.db", &db);
+        rc = sqlite3_open(file_name.c_str(), &db);
         if (rc)
         {
             printf("Cannot open database!\n");
-            exit(1);
+            return 1;
         }
         else
         {
             printf("Database opened successfully!");
         }
-        rc = sqlite3_exec(db, (const char*)sql, callback, 0, 0);
+        rc = sqlite3_exec(db, (const char*)sql.c_str(), callback, 0, 0);
         if (rc == SQLITE_OK)
         {
             printf("SQL executed successfully!");
@@ -89,7 +87,7 @@ int main(void)
             printf("SQL statement error!\n");
         }
         sqlite3_close(db);
-        exit(0);
+        return 0;
     }
     printf("File already exists!\n");
     return 1;

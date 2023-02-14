@@ -211,22 +211,13 @@ CMakeFiles/Taskmgr.dir/main.cpp.o: /home/mrrobogen/Desktop/Task-Manager-Applicat
   /usr/include/x86_64-linux-gnu/bits/statx-generic.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_statx_timestamp.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_statx.h \
-  /usr/include/openssl/sha.h \
-  /usr/include/openssl/macros.h \
-  /usr/include/x86_64-linux-gnu/openssl/opensslconf.h \
-  /usr/include/x86_64-linux-gnu/openssl/configuration.h \
-  /usr/include/openssl/opensslv.h \
-  /usr/include/openssl/e_os2.h \
+  /home/mrrobogen/Desktop/Task-Manager-Application/sha256/sha256.h \
   /usr/include/sqlite3.h
 
 
 /usr/include/sqlite3.h:
 
-/usr/include/openssl/e_os2.h:
-
-/usr/include/x86_64-linux-gnu/openssl/configuration.h:
-
-/usr/include/openssl/sha.h:
+/home/mrrobogen/Desktop/Task-Manager-Application/sha256/sha256.h:
 
 /usr/include/linux/stddef.h:
 
@@ -279,8 +270,6 @@ CMakeFiles/Taskmgr.dir/main.cpp.o: /home/mrrobogen/Desktop/Task-Manager-Applicat
 /usr/include/x86_64-linux-gnu/bits/types/error_t.h:
 
 /usr/include/asm-generic/errno.h:
-
-/usr/include/x86_64-linux-gnu/openssl/opensslconf.h:
 
 /usr/include/wctype.h:
 
@@ -452,8 +441,6 @@ CMakeFiles/Taskmgr.dir/main.cpp.o: /home/mrrobogen/Desktop/Task-Manager-Applicat
 
 /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
 
-/usr/include/openssl/opensslv.h:
-
 /usr/include/asm-generic/posix_types.h:
 
 /usr/include/c++/12/bits/move.h:
@@ -547,8 +534,6 @@ CMakeFiles/Taskmgr.dir/main.cpp.o: /home/mrrobogen/Desktop/Task-Manager-Applicat
 /usr/include/c++/12/bits/locale_facets.tcc:
 
 /usr/include/x86_64-linux-gnu/bits/sched.h:
-
-/usr/include/openssl/macros.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
 

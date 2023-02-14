@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/mrrobogen/Desktop/Task-Manager-Application -I/sqlite
+CXX_INCLUDES = -I/home/mrrobogen/Desktop/Task-Manager-Application -I/sha256
 
 CXX_FLAGS = 
 

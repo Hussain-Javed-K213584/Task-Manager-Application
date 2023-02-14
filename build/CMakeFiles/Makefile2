@@ -64,38 +64,38 @@ CMAKE_BINARY_DIR = /home/mrrobogen/Desktop/Task-Manager-Application/build
 
 # The main recursive "all" target.
 all: CMakeFiles/Taskmgr.dir/all
-all: sqlite/all
+all: sha256/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall: sqlite/preinstall
+preinstall: sha256/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/Taskmgr.dir/clean
-clean: sqlite/clean
+clean: sha256/clean
 .PHONY : clean
 
 #=============================================================================
-# Directory level rules for directory sqlite
+# Directory level rules for directory sha256
 
 # Recursive "all" directory target.
-sqlite/all: sqlite/CMakeFiles/sqlite.dir/all
-.PHONY : sqlite/all
+sha256/all: sha256/CMakeFiles/sha256.dir/all
+.PHONY : sha256/all
 
 # Recursive "preinstall" directory target.
-sqlite/preinstall:
-.PHONY : sqlite/preinstall
+sha256/preinstall:
+.PHONY : sha256/preinstall
 
 # Recursive "clean" directory target.
-sqlite/clean: sqlite/CMakeFiles/sqlite.dir/clean
-.PHONY : sqlite/clean
+sha256/clean: sha256/CMakeFiles/sha256.dir/clean
+.PHONY : sha256/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/Taskmgr.dir
 
 # All Build rule for target.
-CMakeFiles/Taskmgr.dir/all: sqlite/CMakeFiles/sqlite.dir/all
+CMakeFiles/Taskmgr.dir/all: sha256/CMakeFiles/sha256.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Taskmgr.dir/build.make CMakeFiles/Taskmgr.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Taskmgr.dir/build.make CMakeFiles/Taskmgr.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles --progress-num=1,2 "Built target Taskmgr"
@@ -118,30 +118,30 @@ CMakeFiles/Taskmgr.dir/clean:
 .PHONY : CMakeFiles/Taskmgr.dir/clean
 
 #=============================================================================
-# Target rules for target sqlite/CMakeFiles/sqlite.dir
+# Target rules for target sha256/CMakeFiles/sha256.dir
 
 # All Build rule for target.
-sqlite/CMakeFiles/sqlite.dir/all:
-	$(MAKE) $(MAKESILENT) -f sqlite/CMakeFiles/sqlite.dir/build.make sqlite/CMakeFiles/sqlite.dir/depend
-	$(MAKE) $(MAKESILENT) -f sqlite/CMakeFiles/sqlite.dir/build.make sqlite/CMakeFiles/sqlite.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles --progress-num=3,4 "Built target sqlite"
-.PHONY : sqlite/CMakeFiles/sqlite.dir/all
+sha256/CMakeFiles/sha256.dir/all:
+	$(MAKE) $(MAKESILENT) -f sha256/CMakeFiles/sha256.dir/build.make sha256/CMakeFiles/sha256.dir/depend
+	$(MAKE) $(MAKESILENT) -f sha256/CMakeFiles/sha256.dir/build.make sha256/CMakeFiles/sha256.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles --progress-num=3,4 "Built target sha256"
+.PHONY : sha256/CMakeFiles/sha256.dir/all
 
 # Build rule for subdir invocation for target.
-sqlite/CMakeFiles/sqlite.dir/rule: cmake_check_build_system
+sha256/CMakeFiles/sha256.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sqlite/CMakeFiles/sqlite.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sha256/CMakeFiles/sha256.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles 0
-.PHONY : sqlite/CMakeFiles/sqlite.dir/rule
+.PHONY : sha256/CMakeFiles/sha256.dir/rule
 
 # Convenience name for target.
-sqlite: sqlite/CMakeFiles/sqlite.dir/rule
-.PHONY : sqlite
+sha256: sha256/CMakeFiles/sha256.dir/rule
+.PHONY : sha256
 
 # clean rule for target.
-sqlite/CMakeFiles/sqlite.dir/clean:
-	$(MAKE) $(MAKESILENT) -f sqlite/CMakeFiles/sqlite.dir/build.make sqlite/CMakeFiles/sqlite.dir/clean
-.PHONY : sqlite/CMakeFiles/sqlite.dir/clean
+sha256/CMakeFiles/sha256.dir/clean:
+	$(MAKE) $(MAKESILENT) -f sha256/CMakeFiles/sha256.dir/build.make sha256/CMakeFiles/sha256.dir/clean
+.PHONY : sha256/CMakeFiles/sha256.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
