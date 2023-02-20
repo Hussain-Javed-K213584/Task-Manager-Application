@@ -114,7 +114,6 @@ public:
         getline(cin, passwd);
         SetEcho();
         cout << endl;
-        //TODO: Insert data to database, make sure that you use hashing for the password
         string pass_hash = sha256(passwd);
         cout << "Password Hash: " << pass_hash << endl;
         //TODO: Get the account credentials from the database. Remember password hashes must match. Use Where condition in query
