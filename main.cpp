@@ -2,11 +2,28 @@
 #include <unistd.h>
 #include <string>
 #include <sys/stat.h>
-#include "sha256/sha256.h"
 #include <sqlite3.h>
+#include <termios.h>
+
+#include "sha256/sha256.h"
 
 // #include "sqlite/sqlite3.h" //For database
 using namespace std;
+
+void SetEcho(bool setter = true)
+{
+    struct termios t_terminal;
+    tcgetattr(STDIN_FILENO, &t_terminal);
+    if (!setter)
+    {
+        t_terminal.c_lflag &= ~ECHO;
+    }
+    else
+    {
+        t_terminal.c_lflag |= ECHO;
+    }
+    (void) tcsetattr(STDIN_FILENO, TCSANOW, &t_terminal);
+}
 
 static int callback(void *data, int argc, char **argv, char **ColName)
 {
@@ -30,20 +47,77 @@ inline bool file_exist(const string &name)
     return (stat(name.c_str(), &buffer) == 0);
 }
 
+// Function to validate username, preventing SQLi (SQL Injection)
+bool Validate(string &username)
+{
+    for (int i = 0; i < username.length(); i++)
+    {
+        if (username[i] == 32 || username[i] == 39 || username[i] == 40 || username[i] == 41)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 class Manager
 {
     string username, passwd;
 public:
     Manager() {}
-    void Authentication()
+
+    void AccountCreation() // Function responsible for creating user accounts
+    {
+        string pass_hash;
+        sqlite3 *db; // Sqlite connector
+        int rc; //return code
+        char *ErrorMSG; // Will store error message
+        cout << "Welcome to Task Manager account creation!\nInput your username: ";
+        getline(cin, username);
+        SetEcho(false);
+        cout << "Please choose a password: ";
+        getline(cin, passwd);
+        SetEcho();
+        cout << endl;
+        pass_hash = sha256(this->passwd); // Will contain password hash
+        if (!Validate(username)) // Validate user input 
+        {
+            cout << "Username can only contain letters and numbers!\n";
+        }
+        cout << "SUCCESS!\n";
+        string sql_query = "INSERT INTO users (username, password) VALUES (" "'" + username + "'" + ", " + "'" + pass_hash + "'" + " );"; // Insert Query
+        cout << "Executing the following query: " << sql_query << endl;
+        sleep(5);
+        rc = sqlite3_open("../Database/users.db", &db);
+        if (rc)
+        {
+            printf("Cannot open database!\n");
+            exit(1);
+        }
+        rc = sqlite3_exec(db, sql_query.c_str(), callback, 0, &ErrorMSG);
+        if (rc != SQLITE_OK)
+        {
+            cout << "Error executing query!\n";
+            cout << ErrorMSG << endl;
+            exit(1);
+        }
+        cout << "Execution successfull!\n";
+    }
+
+
+    void Authentication() // Function responsible for signing users in
     {
         cout << "Input your username: ";
         getline(cin, username);
+        SetEcho(false);
         cout << "Input your password: ";
         getline(cin, passwd);
-        cout << "The password is: " << passwd
-        << "\nThe password sha256 hash is: " << sha256(passwd);
+        SetEcho();
+        cout << endl;
         //TODO: Insert data to database, make sure that you use hashing for the password
+        string pass_hash = sha256(passwd);
+        cout << "Password Hash: " << pass_hash << endl;
+        //TODO: Get the account credentials from the database. Remember password hashes must match. Use Where condition in query
     }
 };
 
@@ -51,7 +125,6 @@ int main(void)
 {
     sqlite3 *db;
     Manager task;
-    // task.Authentication();
     string pwd_home = getenv("HOME"); //Provides home directory path
     const string file_name = pwd_home + "/Desktop/Task-Manager-Application/Database/users.db"; //Path to database file
     const string dir_name = pwd_home + "/Desktop/Task-Manager-Application/Database"; //Database directory name
@@ -63,7 +136,7 @@ int main(void)
     */
     if (!file_exist(dir_name)){
         string command = "mkdir ";
-        command += dir_name + " && touch" + file_name; //The final comand to make the directory and file 
+        command += dir_name + " && touch " + file_name; //The final comand to make the directory and file 
         system(command.c_str());
         string sql = "CREATE TABLE users(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEST NOT NULL, password TEXT NOT NULL)"; //SQL query to create a table
         int rc;
@@ -89,6 +162,10 @@ int main(void)
         sqlite3_close(db);
         return 0;
     }
-    printf("File already exists!\n");
+    else
+    {
+        task.AccountCreation();
+    }
+    printf("\nFile already exists!\n");
     return 1;
 }

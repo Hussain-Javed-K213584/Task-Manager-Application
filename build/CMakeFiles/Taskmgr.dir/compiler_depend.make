@@ -211,13 +211,31 @@ CMakeFiles/Taskmgr.dir/main.cpp.o: /home/mrrobogen/Desktop/Task-Manager-Applicat
   /usr/include/x86_64-linux-gnu/bits/statx-generic.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_statx_timestamp.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_statx.h \
-  /home/mrrobogen/Desktop/Task-Manager-Application/sha256/sha256.h \
-  /usr/include/sqlite3.h
+  /usr/include/sqlite3.h \
+  /usr/include/termios.h \
+  /usr/include/x86_64-linux-gnu/bits/termios.h \
+  /usr/include/x86_64-linux-gnu/bits/termios-struct.h \
+  /usr/include/x86_64-linux-gnu/bits/termios-c_cc.h \
+  /usr/include/x86_64-linux-gnu/bits/termios-c_iflag.h \
+  /usr/include/x86_64-linux-gnu/bits/termios-c_oflag.h \
+  /usr/include/x86_64-linux-gnu/bits/termios-baud.h \
+  /usr/include/x86_64-linux-gnu/bits/termios-c_cflag.h \
+  /usr/include/x86_64-linux-gnu/bits/termios-c_lflag.h \
+  /usr/include/x86_64-linux-gnu/bits/termios-tcflow.h \
+  /usr/include/x86_64-linux-gnu/bits/termios-misc.h \
+  /usr/include/x86_64-linux-gnu/sys/ttydefaults.h \
+  /home/mrrobogen/Desktop/Task-Manager-Application/sha256/sha256.h
 
-
-/usr/include/sqlite3.h:
 
 /home/mrrobogen/Desktop/Task-Manager-Application/sha256/sha256.h:
+
+/usr/include/x86_64-linux-gnu/bits/termios-c_cc.h:
+
+/usr/include/x86_64-linux-gnu/bits/termios.h:
+
+/usr/include/termios.h:
+
+/usr/include/sqlite3.h:
 
 /usr/include/linux/stddef.h:
 
@@ -261,7 +279,11 @@ CMakeFiles/Taskmgr.dir/main.cpp.o: /home/mrrobogen/Desktop/Task-Manager-Applicat
 
 /usr/include/c++/12/streambuf:
 
+/usr/include/x86_64-linux-gnu/sys/ttydefaults.h:
+
 /usr/include/c++/12/system_error:
+
+/usr/include/x86_64-linux-gnu/bits/termios-c_lflag.h:
 
 /usr/include/c++/12/bits/basic_string.tcc:
 
@@ -324,6 +346,8 @@ CMakeFiles/Taskmgr.dir/main.cpp.o: /home/mrrobogen/Desktop/Task-Manager-Applicat
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+
+/usr/include/x86_64-linux-gnu/bits/termios-c_iflag.h:
 
 /usr/include/x86_64-linux-gnu/asm/types.h:
 
@@ -411,6 +435,8 @@ CMakeFiles/Taskmgr.dir/main.cpp.o: /home/mrrobogen/Desktop/Task-Manager-Applicat
 
 /usr/include/c++/12/ext/alloc_traits.h:
 
+/usr/include/x86_64-linux-gnu/bits/termios-baud.h:
+
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
 
 /usr/include/x86_64-linux-gnu/bits/types.h:
@@ -432,6 +458,8 @@ CMakeFiles/Taskmgr.dir/main.cpp.o: /home/mrrobogen/Desktop/Task-Manager-Applicat
 /usr/include/x86_64-linux-gnu/c++/12/bits/c++locale.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/FILE.h:
+
+/usr/include/x86_64-linux-gnu/bits/termios-c_cflag.h:
 
 /usr/include/c++/12/bits/stl_pair.h:
 
@@ -457,11 +485,15 @@ CMakeFiles/Taskmgr.dir/main.cpp.o: /home/mrrobogen/Desktop/Task-Manager-Applicat
 
 /usr/include/pthread.h:
 
+/usr/include/x86_64-linux-gnu/bits/termios-misc.h:
+
 /usr/include/x86_64-linux-gnu/asm/posix_types.h:
 
 /usr/include/c++/12/ostream:
 
 /usr/include/c++/12/ios:
+
+/usr/include/x86_64-linux-gnu/bits/termios-struct.h:
 
 /usr/include/c++/12/istream:
 
@@ -484,6 +516,8 @@ CMakeFiles/Taskmgr.dir/main.cpp.o: /home/mrrobogen/Desktop/Task-Manager-Applicat
 /usr/include/c++/12/bits/ios_base.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
+
+/usr/include/x86_64-linux-gnu/bits/termios-c_oflag.h:
 
 /usr/include/c++/12/cwchar:
 
@@ -534,6 +568,8 @@ CMakeFiles/Taskmgr.dir/main.cpp.o: /home/mrrobogen/Desktop/Task-Manager-Applicat
 /usr/include/c++/12/bits/locale_facets.tcc:
 
 /usr/include/x86_64-linux-gnu/bits/sched.h:
+
+/usr/include/x86_64-linux-gnu/bits/termios-tcflow.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
 
