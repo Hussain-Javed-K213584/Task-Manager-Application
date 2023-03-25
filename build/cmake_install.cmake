@@ -1,4 +1,4 @@
-# Install script for directory: /home/mrrobogen/Desktop/Task-Manager-Application
+# Install script for directory: /home/hussain/Desktop/Git-Repos/Task-Manager-Application
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,7 +44,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/mrrobogen/Desktop/Task-Manager-Application/build/sha256/cmake_install.cmake")
+  include("/home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/sha256/cmake_install.cmake")
 
 endif()
 
@@ -56,5 +56,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/mrrobogen/Desktop/Task-Manager-Application/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

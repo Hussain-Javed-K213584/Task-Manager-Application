@@ -1,5 +1,5 @@
 sha256/CMakeFiles/sha256.dir/sha256.cpp.o: \
- /home/mrrobogen/Desktop/Task-Manager-Application/sha256/sha256.cpp \
+ /home/hussain/Desktop/Git-Repos/Task-Manager-Application/sha256/sha256.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/12/cstring \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/os_defines.h \
@@ -152,4 +152,4 @@ sha256/CMakeFiles/sha256.dir/sha256.cpp.o: \
  /usr/include/x86_64-linux-gnu/c++/12/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h \
  /usr/include/c++/12/bits/fstream.tcc \
- /home/mrrobogen/Desktop/Task-Manager-Application/sha256/sha256.h
+ /home/hussain/Desktop/Git-Repos/Task-Manager-Application/sha256/sha256.h

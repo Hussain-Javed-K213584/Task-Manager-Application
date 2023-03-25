@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mrrobogen/Desktop/Task-Manager-Application
+CMAKE_SOURCE_DIR = /home/hussain/Desktop/Git-Repos/Task-Manager-Application
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mrrobogen/Desktop/Task-Manager-Application/build
+CMAKE_BINARY_DIR = /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -98,14 +98,14 @@ sha256/clean: sha256/CMakeFiles/sha256.dir/clean
 CMakeFiles/Taskmgr.dir/all: sha256/CMakeFiles/sha256.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Taskmgr.dir/build.make CMakeFiles/Taskmgr.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Taskmgr.dir/build.make CMakeFiles/Taskmgr.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles --progress-num=1,2 "Built target Taskmgr"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/CMakeFiles --progress-num=1,2 "Built target Taskmgr"
 .PHONY : CMakeFiles/Taskmgr.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Taskmgr.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Taskmgr.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/CMakeFiles 0
 .PHONY : CMakeFiles/Taskmgr.dir/rule
 
 # Convenience name for target.
@@ -124,14 +124,14 @@ CMakeFiles/Taskmgr.dir/clean:
 sha256/CMakeFiles/sha256.dir/all:
 	$(MAKE) $(MAKESILENT) -f sha256/CMakeFiles/sha256.dir/build.make sha256/CMakeFiles/sha256.dir/depend
 	$(MAKE) $(MAKESILENT) -f sha256/CMakeFiles/sha256.dir/build.make sha256/CMakeFiles/sha256.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles --progress-num=3,4 "Built target sha256"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/CMakeFiles --progress-num=3,4 "Built target sha256"
 .PHONY : sha256/CMakeFiles/sha256.dir/all
 
 # Build rule for subdir invocation for target.
 sha256/CMakeFiles/sha256.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sha256/CMakeFiles/sha256.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/CMakeFiles 0
 .PHONY : sha256/CMakeFiles/sha256.dir/rule
 
 # Convenience name for target.

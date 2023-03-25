@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mrrobogen/Desktop/Task-Manager-Application
+CMAKE_SOURCE_DIR = /home/hussain/Desktop/Git-Repos/Task-Manager-Application
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mrrobogen/Desktop/Task-Manager-Application/build
+CMAKE_BINARY_DIR = /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,14 +87,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles /home/mrrobogen/Desktop/Task-Manager-Application/build/sha256//CMakeFiles/progress.marks
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sha256/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles 0
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/CMakeFiles /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/sha256//CMakeFiles/progress.marks
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sha256/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sha256/clean
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sha256/clean
 .PHONY : clean
 
 # The main clean target
@@ -103,22 +103,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sha256/preinstall
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sha256/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sha256/preinstall
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sha256/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 sha256/CMakeFiles/sha256.dir/rule:
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sha256/CMakeFiles/sha256.dir/rule
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sha256/CMakeFiles/sha256.dir/rule
 .PHONY : sha256/CMakeFiles/sha256.dir/rule
 
 # Convenience name for target.
@@ -127,7 +127,7 @@ sha256: sha256/CMakeFiles/sha256.dir/rule
 
 # fast build rule for target.
 sha256/fast:
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build && $(MAKE) $(MAKESILENT) -f sha256/CMakeFiles/sha256.dir/build.make sha256/CMakeFiles/sha256.dir/build
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build && $(MAKE) $(MAKESILENT) -f sha256/CMakeFiles/sha256.dir/build.make sha256/CMakeFiles/sha256.dir/build
 .PHONY : sha256/fast
 
 sha256.o: sha256.cpp.o
@@ -135,7 +135,7 @@ sha256.o: sha256.cpp.o
 
 # target to build an object file
 sha256.cpp.o:
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build && $(MAKE) $(MAKESILENT) -f sha256/CMakeFiles/sha256.dir/build.make sha256/CMakeFiles/sha256.dir/sha256.cpp.o
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build && $(MAKE) $(MAKESILENT) -f sha256/CMakeFiles/sha256.dir/build.make sha256/CMakeFiles/sha256.dir/sha256.cpp.o
 .PHONY : sha256.cpp.o
 
 sha256.i: sha256.cpp.i
@@ -143,7 +143,7 @@ sha256.i: sha256.cpp.i
 
 # target to preprocess a source file
 sha256.cpp.i:
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build && $(MAKE) $(MAKESILENT) -f sha256/CMakeFiles/sha256.dir/build.make sha256/CMakeFiles/sha256.dir/sha256.cpp.i
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build && $(MAKE) $(MAKESILENT) -f sha256/CMakeFiles/sha256.dir/build.make sha256/CMakeFiles/sha256.dir/sha256.cpp.i
 .PHONY : sha256.cpp.i
 
 sha256.s: sha256.cpp.s
@@ -151,7 +151,7 @@ sha256.s: sha256.cpp.s
 
 # target to generate assembly for a file
 sha256.cpp.s:
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build && $(MAKE) $(MAKESILENT) -f sha256/CMakeFiles/sha256.dir/build.make sha256/CMakeFiles/sha256.dir/sha256.cpp.s
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build && $(MAKE) $(MAKESILENT) -f sha256/CMakeFiles/sha256.dir/build.make sha256/CMakeFiles/sha256.dir/sha256.cpp.s
 .PHONY : sha256.cpp.s
 
 # Help Target
@@ -177,6 +177,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

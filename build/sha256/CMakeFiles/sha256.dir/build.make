@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mrrobogen/Desktop/Task-Manager-Application
+CMAKE_SOURCE_DIR = /home/hussain/Desktop/Git-Repos/Task-Manager-Application
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mrrobogen/Desktop/Task-Manager-Application/build
+CMAKE_BINARY_DIR = /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build
 
 # Include any dependencies generated for this target.
 include sha256/CMakeFiles/sha256.dir/depend.make
@@ -70,18 +70,18 @@ include sha256/CMakeFiles/sha256.dir/progress.make
 include sha256/CMakeFiles/sha256.dir/flags.make
 
 sha256/CMakeFiles/sha256.dir/sha256.cpp.o: sha256/CMakeFiles/sha256.dir/flags.make
-sha256/CMakeFiles/sha256.dir/sha256.cpp.o: /home/mrrobogen/Desktop/Task-Manager-Application/sha256/sha256.cpp
+sha256/CMakeFiles/sha256.dir/sha256.cpp.o: /home/hussain/Desktop/Git-Repos/Task-Manager-Application/sha256/sha256.cpp
 sha256/CMakeFiles/sha256.dir/sha256.cpp.o: sha256/CMakeFiles/sha256.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object sha256/CMakeFiles/sha256.dir/sha256.cpp.o"
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build/sha256 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT sha256/CMakeFiles/sha256.dir/sha256.cpp.o -MF CMakeFiles/sha256.dir/sha256.cpp.o.d -o CMakeFiles/sha256.dir/sha256.cpp.o -c /home/mrrobogen/Desktop/Task-Manager-Application/sha256/sha256.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object sha256/CMakeFiles/sha256.dir/sha256.cpp.o"
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/sha256 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT sha256/CMakeFiles/sha256.dir/sha256.cpp.o -MF CMakeFiles/sha256.dir/sha256.cpp.o.d -o CMakeFiles/sha256.dir/sha256.cpp.o -c /home/hussain/Desktop/Git-Repos/Task-Manager-Application/sha256/sha256.cpp
 
 sha256/CMakeFiles/sha256.dir/sha256.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sha256.dir/sha256.cpp.i"
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build/sha256 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mrrobogen/Desktop/Task-Manager-Application/sha256/sha256.cpp > CMakeFiles/sha256.dir/sha256.cpp.i
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/sha256 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hussain/Desktop/Git-Repos/Task-Manager-Application/sha256/sha256.cpp > CMakeFiles/sha256.dir/sha256.cpp.i
 
 sha256/CMakeFiles/sha256.dir/sha256.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sha256.dir/sha256.cpp.s"
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build/sha256 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mrrobogen/Desktop/Task-Manager-Application/sha256/sha256.cpp -o CMakeFiles/sha256.dir/sha256.cpp.s
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/sha256 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hussain/Desktop/Git-Repos/Task-Manager-Application/sha256/sha256.cpp -o CMakeFiles/sha256.dir/sha256.cpp.s
 
 # Object files for target sha256
 sha256_OBJECTS = \
@@ -93,19 +93,19 @@ sha256_EXTERNAL_OBJECTS =
 sha256/libsha256.a: sha256/CMakeFiles/sha256.dir/sha256.cpp.o
 sha256/libsha256.a: sha256/CMakeFiles/sha256.dir/build.make
 sha256/libsha256.a: sha256/CMakeFiles/sha256.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mrrobogen/Desktop/Task-Manager-Application/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libsha256.a"
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build/sha256 && $(CMAKE_COMMAND) -P CMakeFiles/sha256.dir/cmake_clean_target.cmake
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build/sha256 && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sha256.dir/link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libsha256.a"
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/sha256 && $(CMAKE_COMMAND) -P CMakeFiles/sha256.dir/cmake_clean_target.cmake
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/sha256 && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sha256.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 sha256/CMakeFiles/sha256.dir/build: sha256/libsha256.a
 .PHONY : sha256/CMakeFiles/sha256.dir/build
 
 sha256/CMakeFiles/sha256.dir/clean:
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build/sha256 && $(CMAKE_COMMAND) -P CMakeFiles/sha256.dir/cmake_clean.cmake
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/sha256 && $(CMAKE_COMMAND) -P CMakeFiles/sha256.dir/cmake_clean.cmake
 .PHONY : sha256/CMakeFiles/sha256.dir/clean
 
 sha256/CMakeFiles/sha256.dir/depend:
-	cd /home/mrrobogen/Desktop/Task-Manager-Application/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mrrobogen/Desktop/Task-Manager-Application /home/mrrobogen/Desktop/Task-Manager-Application/sha256 /home/mrrobogen/Desktop/Task-Manager-Application/build /home/mrrobogen/Desktop/Task-Manager-Application/build/sha256 /home/mrrobogen/Desktop/Task-Manager-Application/build/sha256/CMakeFiles/sha256.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hussain/Desktop/Git-Repos/Task-Manager-Application /home/hussain/Desktop/Git-Repos/Task-Manager-Application/sha256 /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/sha256 /home/hussain/Desktop/Git-Repos/Task-Manager-Application/build/sha256/CMakeFiles/sha256.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : sha256/CMakeFiles/sha256.dir/depend
 

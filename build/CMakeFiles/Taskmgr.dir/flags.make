@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/mrrobogen/Desktop/Task-Manager-Application -I/sha256
+CXX_INCLUDES = -I/home/hussain/Desktop/Git-Repos/Task-Manager-Application -I/sha256
 
 CXX_FLAGS = 
 

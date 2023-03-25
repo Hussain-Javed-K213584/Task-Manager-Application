@@ -1,15 +1,21 @@
 #include <iostream>
 #include <unistd.h>
 #include <string>
+#include <cstring>
 #include <sys/stat.h>
 #include <sqlite3.h>
 #include <termios.h>
+#include <fstream>
+#include <dirent.h>
 
 #include "sha256/sha256.h"
+
+#define MAX_PATH 64
 
 // #include "sqlite/sqlite3.h" //For database
 using namespace std;
 
+// Responsible to make password input invisible
 void SetEcho(bool setter = true)
 {
     struct termios t_terminal;
@@ -22,9 +28,10 @@ void SetEcho(bool setter = true)
     {
         t_terminal.c_lflag |= ECHO;
     }
-    (void) tcsetattr(STDIN_FILENO, TCSANOW, &t_terminal);
+    (void)tcsetattr(STDIN_FILENO, TCSANOW, &t_terminal);
 }
 
+// Sqlite callback
 static int callback(void *data, int argc, char **argv, char **ColName)
 {
     int i;
@@ -34,6 +41,7 @@ static int callback(void *data, int argc, char **argv, char **ColName)
         printf("%s = %s\n", ColName[i], argv[i] ? argv[i] : "NULL");
     }
     printf("\n");
+    strcpy((char*)data, argv[0]);
     return 0;
 }
 /*
@@ -63,14 +71,18 @@ bool Validate(string &username)
 class Manager
 {
     string username, passwd;
+
 public:
     Manager() {}
 
     void AccountCreation() // Function responsible for creating user accounts
     {
+    CreationAgain:
+        string path_to_db(getenv("HOME"));
+        path_to_db += "/.taskmgr/users.db";
         string pass_hash;
-        sqlite3 *db; // Sqlite connector
-        int rc; //return code
+        sqlite3 *db;    // Sqlite connector
+        int rc;         // return code
         char *ErrorMSG; // Will store error message
         cout << "Welcome to Task Manager account creation!\nInput your username: ";
         getline(cin, username);
@@ -80,15 +92,19 @@ public:
         SetEcho();
         cout << endl;
         pass_hash = sha256(this->passwd); // Will contain password hash
-        if (!Validate(username)) // Validate user input 
+        if (!Validate(username))          // Validate user input
         {
             cout << "Username can only contain letters and numbers!\n";
+            system("clear");
+            goto CreationAgain;
         }
         cout << "SUCCESS!\n";
-        string sql_query = "INSERT INTO users (username, password) VALUES (" "'" + username + "'" + ", " + "'" + pass_hash + "'" + " );"; // Insert Query
+        string sql_query = "INSERT INTO users (username, password) VALUES ("
+                           "'" +
+                           username + "'" + ", " + "'" + pass_hash + "'" + " );"; // Insert Query
         cout << "Executing the following query: " << sql_query << endl;
         sleep(5);
-        rc = sqlite3_open("../Database/users.db", &db);
+        rc = sqlite3_open(path_to_db.c_str(), &db);
         if (rc)
         {
             printf("Cannot open database!\n");
@@ -104,11 +120,15 @@ public:
         cout << "Execution successfull!\n";
     }
 
-
     void Authentication() // Function responsible for signing users in
     {
         cout << "Input your username: ";
         getline(cin, username);
+        if (!Validate(username))
+        {
+            cout << "Username has invalid characters!\n";
+            exit(1);
+        }
         SetEcho(false);
         cout << "Input your password: ";
         getline(cin, passwd);
@@ -116,30 +136,60 @@ public:
         cout << endl;
         string pass_hash = sha256(passwd);
         cout << "Password Hash: " << pass_hash << endl;
-        //TODO: Get the account credentials from the database. Remember password hashes must match. Use Where condition in query
+        // TODO: Get the account credentials from the database. Remember password hashes must match. Use Where condition in query
+        string path_to_db(getenv("HOME"));
+        path_to_db += "/.taskmgr/users.db";
+        sqlite3 *db;
+        char* ErrMsg = 0;
+        int rc = sqlite3_open(path_to_db.c_str(), &db);
+        if (rc)
+        {
+            cout << "Cannot open database!\n";
+            exit(1);
+        }
+        char* pass_from_db = new char[258];
+        string sql_get_query = "SELECT password FROM users WHERE username = '" + username + "';";
+        rc = sqlite3_exec(db, sql_get_query.c_str(), callback, (void*)pass_from_db, &ErrMsg);
+        if (rc)
+        {
+            cout << "Cannot execute sql!\n";
+            exit(1);
+        }
+
     }
 };
 
 int main(void)
 {
+    // This section of code is completed
+
+    /*
+        This section of code creates the user database and inits the database.
+        The database consists of the user's username and password.
+    */
     sqlite3 *db;
     Manager task;
-    string pwd_home = getenv("HOME"); //Provides home directory path
-    const string file_name = pwd_home + "/Desktop/Task-Manager-Application/Database/users.db"; //Path to database file
-    const string dir_name = pwd_home + "/Desktop/Task-Manager-Application/Database"; //Database directory name
-    cout << dir_name << endl;
+    string home(getenv("HOME"));
+    home += "/.taskmgr";
+    DIR *db_dir = opendir(home.c_str()); // Checks if directory exists
+    if (ENOENT == errno)
+    {
+        int check = mkdir(home.c_str(), 0777); // Create directory if it does not exists
+        cout << check;
+    }
+    string path_to_db_file;
+    path_to_db_file += home + "/users.db";
     /*
         For checking if database exists or not
         If database file does not exist, one should be created
         sqlite3 reference: https://www.tutorialspoint.com/sqlite/sqlite_c_cpp.htm
     */
-    if (!file_exist(dir_name)){
-        string command = "mkdir ";
-        command += dir_name + " && touch " + file_name; //The final comand to make the directory and file 
-        system(command.c_str());
-        string sql = "CREATE TABLE users(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEST NOT NULL, password TEXT NOT NULL)"; //SQL query to create a table
+    if (!file_exist(path_to_db_file))
+    {
+
+        string sql = "CREATE TABLE users(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEST NOT NULL, password TEXT NOT NULL)"; // SQL query to create a table
         int rc;
-        rc = sqlite3_open(file_name.c_str(), &db);
+        rc = sqlite3_open(path_to_db_file.c_str(), &db);
         if (rc)
         {
             printf("Cannot open database!\n");
@@ -149,7 +199,7 @@ int main(void)
         {
             printf("Database opened successfully!");
         }
-        rc = sqlite3_exec(db, (const char*)sql.c_str(), callback, 0, 0);
+        rc = sqlite3_exec(db, (const char *)sql.c_str(), callback, 0, 0);
         if (rc == SQLITE_OK)
         {
             printf("SQL executed successfully!");
@@ -163,8 +213,9 @@ int main(void)
     }
     else
     {
-        task.AccountCreation();
+        // task.AccountCreation();
+        task.Authentication();
     }
     printf("\nFile already exists!\n");
-    return 1;
+    return 0;
 }

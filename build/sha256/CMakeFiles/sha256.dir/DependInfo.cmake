@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/mrrobogen/Desktop/Task-Manager-Application/sha256/sha256.cpp" "sha256/CMakeFiles/sha256.dir/sha256.cpp.o" "gcc" "sha256/CMakeFiles/sha256.dir/sha256.cpp.o.d"
+  "/home/hussain/Desktop/Git-Repos/Task-Manager-Application/sha256/sha256.cpp" "sha256/CMakeFiles/sha256.dir/sha256.cpp.o" "gcc" "sha256/CMakeFiles/sha256.dir/sha256.cpp.o.d"
   )
 
 # Targets to which this target links.

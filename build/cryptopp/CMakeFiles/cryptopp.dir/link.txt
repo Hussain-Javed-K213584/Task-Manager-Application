@@ -1,2 +1,0 @@
-/usr/bin/ar qc libcryptopp.a CMakeFiles/cryptopp.dir/shake.cpp.o CMakeFiles/cryptopp.dir/cryptlib.cpp.o
-/usr/bin/ranlib libcryptopp.a
