@@ -41,7 +41,7 @@ static int callback(void *data, int argc, char **argv, char **ColName)
         printf("%s = %s\n", ColName[i], argv[i] ? argv[i] : "NULL");
     }
     printf("\n");
-    strcpy((char*)data, argv[0]);
+    strcpy((char *)data, argv[0]);
     return 0;
 }
 /*
@@ -71,7 +71,10 @@ bool Validate(string &username)
 class Manager
 {
     string username, passwd;
+    void LoadTask()
+    {
 
+    }
 public:
     Manager() {}
 
@@ -122,6 +125,7 @@ public:
 
     void Authentication() // Function responsible for signing users in
     {
+    LoginAgain:
         cout << "Input your username: ";
         getline(cin, username);
         if (!Validate(username))
@@ -140,22 +144,33 @@ public:
         string path_to_db(getenv("HOME"));
         path_to_db += "/.taskmgr/users.db";
         sqlite3 *db;
-        char* ErrMsg = 0;
+        char *ErrMsg = 0;
         int rc = sqlite3_open(path_to_db.c_str(), &db);
         if (rc)
         {
             cout << "Cannot open database!\n";
             exit(1);
         }
-        char* pass_from_db = new char[258];
+        char *pass_from_db = new char[258];
         string sql_get_query = "SELECT password FROM users WHERE username = '" + username + "';";
-        rc = sqlite3_exec(db, sql_get_query.c_str(), callback, (void*)pass_from_db, &ErrMsg);
+        rc = sqlite3_exec(db, sql_get_query.c_str(), callback, (void *)pass_from_db, &ErrMsg);
         if (rc)
         {
             cout << "Cannot execute sql!\n";
             exit(1);
         }
+        if (strcmp(pass_from_db, pass_hash.c_str()) != 0)
+        {
+            cout << "Incorrect login!\n";
+            goto LoginAgain;
+        }
+        cout << "Authentication successfull!\n";
+        // Authentication code is complete
 
+        /*
+            Call the LoadTask function to load the user's task and list them
+            on the console.
+        */
     }
 };
 
