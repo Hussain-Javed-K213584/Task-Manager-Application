@@ -68,17 +68,17 @@ bool Validate(string &username)
     return true;
 }
 
-class Manager
+class TaskManager
 {
     string username, passwd;
-    void LoadTask()
+    void LoadTask() // Function loads the task from data base
     {
 
     }
 public:
-    Manager() {}
+    TaskManager() {}
 
-    void AccountCreation() // Function responsible for creating user accounts
+    void AccountCreation() // Function responsible for creating user accounts and the user's task database
     {
     CreationAgain:
         string path_to_db(getenv("HOME"));
@@ -121,6 +121,13 @@ public:
             exit(1);
         }
         cout << "Execution successfull!\n";
+        // TODO: Create user's database file to hold tasks
+        ofstream createFile(username + ".db");
+        createFile.close();
+        // TODO: Create user's table
+        string sqlQueryDatabase = "CREATE TABLE " + username + " ("
+        "id INTEGER AUTOINCREMENT PRIMARY KEY, task TEXT, depends_on INTEGER, priority INTEGER, "
+        "creation_date TEXT NOT NULL, deadline TEXT NOT NULL)";
     }
 
     void Authentication() // Function responsible for signing users in
@@ -183,7 +190,7 @@ int main(void)
         The database consists of the user's username and password.
     */
     sqlite3 *db;
-    Manager task;
+    TaskManager task;
     string home(getenv("HOME"));
     home += "/.taskmgr";
     DIR *db_dir = opendir(home.c_str()); // Checks if directory exists
@@ -202,7 +209,7 @@ int main(void)
     if (!file_exist(path_to_db_file))
     {
 
-        string sql = "CREATE TABLE users(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEST NOT NULL, password TEXT NOT NULL)"; // SQL query to create a table
+        string sql_create_users = "CREATE TABLE users(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEST NOT NULL, password TEXT NOT NULL)"; // SQL query to create a table
         int rc;
         rc = sqlite3_open(path_to_db_file.c_str(), &db);
         if (rc)
@@ -214,7 +221,7 @@ int main(void)
         {
             printf("Database opened successfully!");
         }
-        rc = sqlite3_exec(db, (const char *)sql.c_str(), callback, 0, 0);
+        rc = sqlite3_exec(db, (const char *)sql_create_users.c_str(), callback, 0, 0);
         if (rc == SQLITE_OK)
         {
             printf("SQL executed successfully!");
@@ -231,6 +238,6 @@ int main(void)
         // task.AccountCreation();
         task.Authentication();
     }
-    printf("\nFile already exists!\n");
+    printf("\nDatabase File already exists!\n");
     return 0;
 }
