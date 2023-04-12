@@ -3,16 +3,20 @@
 #include <string>
 #include <cstring>
 #include <sys/stat.h>
-#include <sqlite3.h>
+// #include <sqlite3.h>
+#include "sqlite_modern_cpp-dev/hdr/sqlite_modern_cpp.h"
 #include <termios.h>
 #include <fstream>
+#include <iomanip>
 #include <dirent.h>
+#include <vector>
+#include <ctime>
 
 #include "sha256/sha256.h"
 
 #define MAX_PATH 64
 
-// #include "sqlite/sqlite3.h" //For database
+using namespace sqlite;
 using namespace std;
 
 // Responsible to make password input invisible
@@ -31,19 +35,6 @@ void SetEcho(bool setter = true)
     (void)tcsetattr(STDIN_FILENO, TCSANOW, &t_terminal);
 }
 
-// Sqlite callback
-static int callback(void *data, int argc, char **argv, char **ColName)
-{
-    int i;
-    printf("%s\n", (const char *)data);
-    for (i = 0; i < argc; i++)
-    {
-        printf("%s = %s\n", ColName[i], argv[i] ? argv[i] : "NULL");
-    }
-    printf("\n");
-    strcpy((char *)data, argv[0]);
-    return 0;
-}
 /*
     The following function checks for the users.db file
     If the file does not exists it returns 0
@@ -71,27 +62,67 @@ bool Validate(string &username)
 class TaskManager
 {
     string username, passwd;
+    int taskCounter;
+    pair<vector<int>, vector<string>> userTasks;
+    /*
+    This will load the task of the user from the database created.
+    Call the function and work will done. Tasks will stored in vector pair.
+    */
+    void validateDeadline(string &deadline)
+    {
+        // TODO: Complete date time validation
+        if (deadline.length() > 11 || deadline[0] > 1 || deadline[0] < 0 || deadline [1] > 9 || deadline[1] < 0 || \
+        deadline[3] < 0 || deadline[3] > 3 || deadline[4] < 0 || deadline[4] > 9 || deadline[])
+        {
+            cout << "Invalid!";
+        }
+    }
     void LoadTask() // Function loads the task from data base
     {
-
     }
+
+    void addTask()
+    {
+        string sqlInsertTask = "INSERT INTO " + username + " (tasks, pirority, creation_date, deadline) VALUES (?, ?, ?, ?);";
+        string newTask, timestamp, deadline, currentTimestamp;
+        short priority;
+        cout << "Input field: ";
+        getline(cin >> ws, newTask);
+        cout << "Task priority: ";
+        cin >> priority;
+        time_t result = time(nullptr);
+        currentTimestamp = asctime(localtime(&result));
+        cout << "Set a deadline - MM/DD/YYYY\n";
+        getline(cin >> ws, deadline);
+        validateDeadline(deadline);
+    }
+    void removeTask()
+    {
+    }
+    void updateTask()
+    {
+    }
+
 public:
-    TaskManager() {}
+    TaskManager()
+    {
+        taskCounter = 0;
+    }
 
     void AccountCreation() // Function responsible for creating user accounts and the user's task database
     {
-    CreationAgain:
         string path_to_db(getenv("HOME"));
         path_to_db += "/.taskmgr/users.db";
+        string path_to_folder(getenv("HOME"));
+        path_to_folder += "/.taskmgr/";
         string pass_hash;
-        sqlite3 *db;    // Sqlite connector
-        int rc;         // return code
-        char *ErrorMSG; // Will store error message
+        database dbConn(path_to_db);
+    CreationAgain:
         cout << "Welcome to Task Manager account creation!\nInput your username: ";
-        getline(cin, username);
+        getline(cin >> ws, username);
         SetEcho(false);
         cout << "Please choose a password: ";
-        getline(cin, passwd);
+        getline(cin >> ws, passwd);
         SetEcho();
         cout << endl;
         pass_hash = sha256(this->passwd); // Will contain password hash
@@ -102,39 +133,27 @@ public:
             goto CreationAgain;
         }
         cout << "SUCCESS!\n";
-        string sql_query = "INSERT INTO users (username, password) VALUES ("
-                           "'" +
-                           username + "'" + ", " + "'" + pass_hash + "'" + " );"; // Insert Query
+        string sql_query = "INSERT INTO users (username, password) VALUES (?, ?);"; // Insert Query
         cout << "Executing the following query: " << sql_query << endl;
         sleep(5);
-        rc = sqlite3_open(path_to_db.c_str(), &db);
-        if (rc)
-        {
-            printf("Cannot open database!\n");
-            exit(1);
-        }
-        rc = sqlite3_exec(db, sql_query.c_str(), callback, 0, &ErrorMSG);
-        if (rc != SQLITE_OK)
-        {
-            cout << "Error executing query!\n";
-            cout << ErrorMSG << endl;
-            exit(1);
-        }
+        dbConn << sql_query
+               << username
+               << pass_hash;
         cout << "Execution successfull!\n";
         // TODO: Create user's database file to hold tasks
-        ofstream createFile(username + ".db");
-        createFile.close();
+        database userConn(path_to_folder + username + ".db");
         // TODO: Create user's table
-        string sqlQueryDatabase = "CREATE TABLE " + username + " ("
-        "id INTEGER AUTOINCREMENT PRIMARY KEY, task TEXT, depends_on INTEGER, priority INTEGER, "
-        "creation_date TEXT NOT NULL, deadline TEXT NOT NULL)";
+        string sqlQueryDatabase = "CREATE TABLE if not exists " + username + " ("
+                                                                             "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, task TEXT, depends_on INTEGER, priority INTEGER, "
+                                                                             "creation_date TEXT NOT NULL, deadline TEXT NOT NULL);";
+        userConn << sqlQueryDatabase;
     }
 
     void Authentication() // Function responsible for signing users in
     {
     LoginAgain:
         cout << "Input your username: ";
-        getline(cin, username);
+        getline(cin >> ws, username);
         if (!Validate(username))
         {
             cout << "Username has invalid characters!\n";
@@ -142,31 +161,18 @@ public:
         }
         SetEcho(false);
         cout << "Input your password: ";
-        getline(cin, passwd);
+        getline(cin >> ws, passwd);
         SetEcho();
         cout << endl;
         string pass_hash = sha256(passwd);
         cout << "Password Hash: " << pass_hash << endl;
         // TODO: Get the account credentials from the database. Remember password hashes must match. Use Where condition in query
-        string path_to_db(getenv("HOME"));
+        string path_to_db(getenv("HOME")), pass_from_db;
         path_to_db += "/.taskmgr/users.db";
-        sqlite3 *db;
-        char *ErrMsg = 0;
-        int rc = sqlite3_open(path_to_db.c_str(), &db);
-        if (rc)
-        {
-            cout << "Cannot open database!\n";
-            exit(1);
-        }
-        char *pass_from_db = new char[258];
-        string sql_get_query = "SELECT password FROM users WHERE username = '" + username + "';";
-        rc = sqlite3_exec(db, sql_get_query.c_str(), callback, (void *)pass_from_db, &ErrMsg);
-        if (rc)
-        {
-            cout << "Cannot execute sql!\n";
-            exit(1);
-        }
-        if (strcmp(pass_from_db, pass_hash.c_str()) != 0)
+        database dbConn(path_to_db);
+        string sql_get_query = "SELECT password FROM users WHERE username = ?;";
+        dbConn << sql_get_query << username >> pass_from_db; // Password will be stored in pass_from_db var
+        if (pass_from_db != pass_hash)                       // Compares the received hash
         {
             cout << "Incorrect login!\n";
             goto LoginAgain;
@@ -178,6 +184,29 @@ public:
             Call the LoadTask function to load the user's task and list them
             on the console.
         */
+        LoadTask();
+    }
+
+    void taskManaging()
+    {
+        cout << "Hello " + username + "\nWhat is on your mind?\n";
+        cout << "1. Add Task\n"
+             << "2. Remove Task\n"
+             << "3. Update task\n";
+        short input;
+        cin >> input;
+        switch (input)
+        {
+        case 1:
+            addTask();
+            break;
+        case 2:
+            removeTask();
+            break;
+        case 3:
+            updateTask();
+            break;
+        }
     }
 };
 
@@ -189,8 +218,6 @@ int main(void)
         This section of code creates the user database and inits the database.
         The database consists of the user's username and password.
     */
-    sqlite3 *db;
-    TaskManager task;
     string home(getenv("HOME"));
     home += "/.taskmgr";
     DIR *db_dir = opendir(home.c_str()); // Checks if directory exists
@@ -206,38 +233,42 @@ int main(void)
         If database file does not exist, one should be created
         sqlite3 reference: https://www.tutorialspoint.com/sqlite/sqlite_c_cpp.htm
     */
-    if (!file_exist(path_to_db_file))
-    {
+    database db(path_to_db_file);
 
-        string sql_create_users = "CREATE TABLE users(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEST NOT NULL, password TEXT NOT NULL)"; // SQL query to create a table
-        int rc;
-        rc = sqlite3_open(path_to_db_file.c_str(), &db);
-        if (rc)
-        {
-            printf("Cannot open database!\n");
-            return 1;
-        }
-        else
-        {
-            printf("Database opened successfully!");
-        }
-        rc = sqlite3_exec(db, (const char *)sql_create_users.c_str(), callback, 0, 0);
-        if (rc == SQLITE_OK)
-        {
-            printf("SQL executed successfully!");
-        }
-        else
-        {
-            printf("SQL statement error!\n");
-        }
-        sqlite3_close(db);
-        return 0;
-    }
-    else
+    string sql_create_users = "CREATE TABLE if not exists users(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEST NOT NULL, password TEXT NOT NULL)"; // SQL query to create a table
+    db << sql_create_users;
+
+    printf("\nUser database file already exists!\n");
+    sleep(2);
+    system("clear");
+    // Start main program
+    TaskManager task;
+    while (1)
     {
-        // task.AccountCreation();
-        task.Authentication();
+        char input;
+        cout << "\t\t\t\tWelcome to Task Manager\n"
+             << "\t\t\t\t1. Login\n"
+             << "\t\t\t\t2. Sign up\n"
+             << "\t\t\t\tInput: ";
+        cin >> input;
+        if (input == '1')
+        {
+            task.Authentication();
+        }
+        else if (input == '2')
+        {
+            task.AccountCreation();
+            cout << "Account creation successful!\n";
+            sleep(1);
+            system("clear");
+        }
+        else
+        {
+            cout << "\t\t\t\tInvalid Input\n";
+            sleep(1);
+            system("clear");
+            input = '\0';
+        }
     }
-    printf("\nDatabase File already exists!\n");
     return 0;
 }
