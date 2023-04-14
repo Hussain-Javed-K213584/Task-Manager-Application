@@ -1,0 +1,2 @@
+/usr/bin/ar qc libbprinter.a CMakeFiles/bprinter.dir/src/table_printer.cpp.o
+/usr/bin/ranlib libbprinter.a

@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/bprinterTest.dir/src/test_main.cxx.o -o bprinterTest  libbprinter.a 

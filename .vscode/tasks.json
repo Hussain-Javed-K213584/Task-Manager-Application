@@ -9,6 +9,8 @@
                 "-g",
                 "${file}",
                 "sha256/sha256.cpp",
+                "-Isqlite_modern_cpp/hdr",
+                "bprinter/src/table_printer.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",
                 "-lsqlite3"
