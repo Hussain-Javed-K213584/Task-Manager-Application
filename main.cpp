@@ -427,6 +427,15 @@ public:
     CreationAgain:
         cout << "Welcome to Task Manager account creation!\nInput your username: ";
         getline(cin >> ws, username);
+        // string sqlGetUsername = "SELECT username FROM users WHERE username = ?;", userExists;
+        // dbConn << sqlGetUsername >> userExists;
+        // if (userExists == username)
+        // {
+        //     cout << "Username already exists!\n";
+        //     sleep(1);
+        //     system("clear");
+        //     goto CreationAgain;
+        // }
         SetEcho(false);
         cout << "Please choose a password: ";
         getline(cin >> ws, passwd);
@@ -525,7 +534,7 @@ int main(void)
     */
     database db(path_to_db_file);
 
-    string sql_create_users = "CREATE TABLE if not exists users(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEST NOT NULL, password TEXT NOT NULL)"; // SQL query to create a table
+    string sql_create_users = "CREATE TABLE if not exists users(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL, password TEXT NOT NULL)"; // SQL query to create a table
     db << sql_create_users;
     // Start main program
     TaskManager task;
