@@ -48,26 +48,27 @@ inline bool file_exist(const string &name)
     return (stat(name.c_str(), &buffer) == 0);
 }
 
-// Function to validate username, preventing SQLi (SQL Injection)
-bool Validate(string &username)
-{
-    for (int i = 0; i < username.length(); i++)
-    {
-        if (username[i] == 32 || username[i] == 39 || username[i] == 40 || username[i] == 41)
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
 class TaskManager
 {
     string username, passwd;
     int taskCounter;
-    typedef vector< tuple<unsigned int, string, unsigned int>> TaskVector;
+    typedef vector<tuple<unsigned int, string, unsigned int, string, string>> TaskVector;
     vector<string> timeStampVector, deadlineVector;
+    vector<unsigned int> TaskID;
     TaskVector TskVT; // Stored Task ID, Task string, and task priority
+
+    // Function to validate username, preventing SQLi (SQL Injection)
+    bool Validate(string &username)
+    {
+        for (int i = 0; i < username.length(); i++)
+        {
+            if (username[i] == 32 || username[i] == 39 || username[i] == 40 || username[i] == 41)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
     /*
         A pretty bad implementation of timestamp validation. Should not be used in production code.
         Good enough for the semester project. Try to use a parser; take help from here:
@@ -104,16 +105,20 @@ class TaskManager
     bool loadLastEntry()
     {
         database lastEntryLoader(getCurrentDatabasePath());
-        string selectQuery = "SELECT id, task, priority, creation_date, deadline FROM " + username + " where id == ?;";
-        try{
-            lastEntryLoader << selectQuery << taskCounter // taskCounter has id of last inserted entry
-                        >> [&](unsigned int id, string userTask, unsigned int taskPriority, string creationDate, string deadline){
-                            TskVT.push_back(tuple <unsigned int, string, unsigned int> (id, userTask, taskPriority));
-                            timeStampVector.push_back(creationDate);
-                            deadlineVector.push_back(deadline);
-                        };
+        string selectQuery = "SELECT id, task, priority, creation_date, deadline FROM " + username + " WHERE id ="
+        "(SELECT max(id) FROM " + username + ");";
+        try
+        {
+            lastEntryLoader << selectQuery // taskCounter has id of last inserted entry
+                >> [&](unsigned int id, string userTask, unsigned int taskPriority, string creationDate, string deadline)
+            {
+                TskVT.push_back(tuple<unsigned int, string, unsigned int, string, string>(id, userTask, taskPriority, creationDate, deadline));
+                TaskID.push_back(id);
+                // timeStampVector.push_back(creationDate);
+                // deadlineVector.push_back(deadline);
+            };
         }
-        catch(const exception& e)
+        catch (const exception &e)
         {
             cout << e.what() << endl;
             return false;
@@ -130,15 +135,17 @@ class TaskManager
     void LoadTask()
     {
         // TODO: Load user's task in the vector tuple
-        string loadTaskQuery = "SELECT * FROM " + username + ";";
+        string loadTaskQuery = "SELECT * FROM " + username + " ORDER BY priority DESC;"; // Loads based on highest priority
         string test = getCurrentDatabasePath();
         database loadingDB(getCurrentDatabasePath());
-        loadingDB << loadTaskQuery
-                >>[&](unsigned int id, string userTask, unsigned int taskPriority, string creationDate, string deadline){
-                    TskVT.push_back(tuple <unsigned int, string, unsigned int> (id, userTask, taskPriority));
-                    timeStampVector.push_back(creationDate);
-                    deadlineVector.push_back(deadline);
-                };
+        loadingDB << loadTaskQuery >> [&](unsigned int id, string userTask, unsigned int taskPriority, string creationDate, string deadline)
+        {
+            TskVT.push_back(tuple<unsigned int, string, unsigned int, string, string>(id, userTask, taskPriority, creationDate, deadline));
+            TaskID.push_back(id);
+            // timeStampVector.push_back(creationDate);
+            // deadlineVector.push_back(deadline);
+        };
+        taskCounter = TskVT.size();
     }
 
     /*
@@ -148,18 +155,19 @@ class TaskManager
 
     void addTask()
     {
+        taskCounter++;
         string sqlInsertTask = "INSERT INTO " + username + " (task, priority, creation_date, deadline) VALUES (?, ?, ?, ?);";
         string newTask, timestamp, deadline, currentTimestamp; // Temporary string to hold values
         unsigned short priority;
-        cout << "Input field: ";
+        cout << "\t\t\t\tInput field: ";
         getline(cin >> ws, newTask);
-        cout << "Task priority: ";
+        cout << "\t\t\t\tTask priority: ";
         cin >> priority;
         time_t result = time(nullptr);
         currentTimestamp = asctime(localtime(&result));
         currentTimestamp.erase(remove(currentTimestamp.begin(), currentTimestamp.end(), '\n'), currentTimestamp.end());
     TimestampAgain:
-        cout << "Set a deadline - MM/DD/YYYY\n";
+        cout << "\t\t\t\tSet a deadline - MM/DD/YYYY: ";
         getline(cin >> ws, deadline);
         if (!validateDeadline(deadline))
         {
@@ -173,7 +181,15 @@ class TaskManager
                         << currentTimestamp
                         << deadline;
         loadLastEntry(); // Loads the recently added task in the vector
+        sort(TskVT.begin(), TskVT.end(), [](auto const &t1, auto const &t2){
+            return get<2>(t1) > get<2>(t2);
+        });
     }
+    /*
+        This function uses the betty printer library (include link here)
+        to print out the tasks in a row and column format, just like how
+        MySQL displays data.
+    */
     void printUserTask()
     {
         bprinter::TablePrinter tp(&std::cout);
@@ -182,42 +198,215 @@ class TaskManager
         tp.AddColumn("Priority", 10);
         tp.AddColumn("Creation Date", 40);
         tp.AddColumn("Deadline", 40);
-
         tp.PrintHeader();
-        auto TimeStampIter = timeStampVector.begin(), deadlineIter = deadlineVector.begin();
-        for (auto i = TskVT.begin(); i != TskVT.end() && TimeStampIter != timeStampVector.end() && deadlineIter != deadlineVector.end(); i++)
+        //auto TimeStampIter = timeStampVector.begin(), deadlineIter = deadlineVector.begin();
+        for (auto i = TskVT.begin(); i != TskVT.end(); i++)
         {
-            tp << get<0>(*i) << get<1>(*i) << get<2>(*i) << *TimeStampIter << *deadlineIter;
+            tp << get<0>(*i) << get<1>(*i) << get<2>(*i) << get<3>(*i) << get<4>(*i);
         }
         tp.PrintFooter();
     }
+    // Validates that Task ID exists or not
+    bool validateTaskID(int taskId)
+    {
+        for (auto i = TaskID.begin(); i != TaskID.end(); i++)
+        {
+            if (*i == taskId)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     void removeTask()
     {
+        short int taskId, input;
+        string deleteQuery = "DELETE FROM " + username + " WHERE id = ?;";
+        database db(getCurrentDatabasePath());
+        bool exitFlag = false;
+        while (1)
+        {
+            system("clear");
+            cout << "\t\t\t\tProvide an option: \n"
+                 << "\t\t\t\t1. Delete Task\n"
+                 << "\t\t\t\t2. Exit\n";
+            cin >> input;
+            switch (input)
+            {
+            case 1:
+            DELETETASKAGAIN:
+                system("clear");
+                printUserTask();
+                cout << "Input the task ID: ";
+                cin >> taskId;
+                if (!validateTaskID(taskId))
+                    goto DELETETASKAGAIN;
+                try
+                {
+                    db << deleteQuery << taskId;
+                }
+                catch (const exception &e)
+                {
+                    cout << e.what() << endl;
+                }
+                // Delete all vector tuple entries and fill it again by calling LoadTask().
+                TskVT.clear();
+                TaskID.clear();
+                LoadTask();
+                taskCounter--;
+                break;
+            case 2:
+                exitFlag = true;
+                break;
+            default:
+                cout << "\t\t\t\tInvalid option provided\n";
+                break;
+            }
+            if (exitFlag)
+                break;
+        }
     }
+    /*
+        This function updates the user task based on the task ID
+    */
     void updateTask()
     {
+        bool exitFlag = false;
+        while (1)
+        {
+            string updatedTask, updateSQL = "UPDATE " + username + " SET task = ? WHERE id = ?;",
+                                updatePriority = "UPDATE " + username + " SET priority = ? WHERE id = ?;",
+                                updateDeadline = "UPDATE " + username + " SET deadline = ? WHERE id = ?;",
+                                newDeadline;
+            short int taskID, newPriority;
+            database db(getCurrentDatabasePath());
+            system("clear");
+            cout << "\t\t\t\tSpecify the field to update\n";
+            cout << "\t\t\t\t1. Task\n"
+                 << "\t\t\t\t2. Priority\n"
+                 << "\t\t\t\t3. Deadline\n"
+                 << "\t\t\t\t4. Exit"
+                 << endl;
+            short int input;
+            cin >> input;
+            switch (input)
+            {
+            case 1:
+            inputTaskIdAgain:
+                system("clear");
+                printUserTask();
+                cout << "\t\t\t\tInput the task ID: ";
+                cin >> taskID;
+                if (!validateTaskID(taskID))
+                    goto inputTaskIdAgain;
+                cout << "\t\t\t\tInput the updated task: ";
+                getline(cin >> ws, updatedTask);
+                try
+                {
+                    db << updateSQL << updatedTask << taskID;
+                }
+                catch (const exception &e)
+                {
+                    cout << e.what() << endl;
+                }
+                cout << "\t\t\t\tTask Updated Successfully!\n";
+                break;
+            case 2:
+            PriorityAgain:
+                system("clear");
+                printUserTask();
+                cout << "\t\t\t\tInput the task ID: ";
+                cin >> taskID;
+                cout << "\t\t\t\tInput the new priority: ";
+                cin >> newPriority;
+                if (!validateTaskID(taskID))
+                    goto PriorityAgain;
+                try
+                {
+                    db << updatePriority << newPriority << taskID;
+                }
+                catch (const exception &e)
+                {
+                    cout << e.what() << endl;
+                }
+                break;
+            case 3:
+            DeadlineAgain:
+                system("clear");
+                printUserTask();
+                cout << "\t\t\t\tInput the task ID: ";
+                cin >> taskID;
+                cout << "\t\t\t\tInput the new deadline: ";
+                getline(cin >> ws, newDeadline);
+                if (!validateTaskID(taskID))
+                    goto DeadlineAgain;
+                try
+                {
+                    db << updateDeadline << newDeadline << taskID;
+                }
+                catch (const exception &e)
+                {
+                    cout << e.what() << endl;
+                }
+                break;
+            case 4:
+                exitFlag = true;
+                break;
+            }
+            if (exitFlag)
+                break;
+        }
     }
-
+    /*
+    Prints a month of dates (1-31) and shows the task next to them
+    if there are any with their deadlines provided. This could get tricky
+    */
+    void CalendarViewOfTheMonth()
+    {
+        //TODO: Implement a calendar view
+    }
     // Driver code to manage tasks
     void taskManaging()
     {
-        cout << "Hello " + username + "\nWhat is on your mind?\n";
-        cout << "1. Add Task\n"
-             << "2. Remove Task\n"
-             << "3. Update task\n";
-        short input;
-        cin >> input;
-        switch (input)
+        bool exitFlag = false;
+        while (1)
         {
-        case 1:
-            addTask();
-            break;
-        case 2:
-            removeTask();
-            break;
-        case 3:
-            updateTask();
-            break;
+            system("clear");
+            printUserTask();
+            cout << "\t\t\t\tHello " + username + "\n\t\t\t\tWhat is on your mind?\n";
+            cout << "\t\t\t\t1. Add Task\n"
+                 << "\t\t\t\t2. Remove Task\n"
+                 << "\t\t\t\t3. Update task\n"
+                 << "\t\t\t\t4. Exit\n";
+            short input;
+            cin >> input;
+            switch (input)
+            {
+            case 1:
+                addTask();
+                break;
+            case 2:
+                removeTask();
+                break;
+            case 3:
+                updateTask();
+                break;
+            case 4:
+                exitFlag = true;
+                break;
+            default:
+                cout << "\t\t\t\tInvalid option provided!\n";
+                sleep(2);
+                break;
+            }
+            if (exitFlag)
+            {
+                TskVT.clear();
+                TaskID.clear();
+                username.clear();
+                passwd.clear();
+                break;
+            }
         }
     }
 
@@ -252,8 +441,6 @@ public:
         }
         cout << "SUCCESS!\n";
         string sql_query = "INSERT INTO users (username, password) VALUES (?, ?);"; // Insert Query
-        cout << "Executing the following query: " << sql_query << endl;
-        sleep(5);
         dbConn << sql_query
                << username
                << pass_hash;
@@ -283,7 +470,7 @@ public:
         SetEcho();
         cout << endl;
         string pass_hash = sha256(passwd);
-        cout << "Password Hash: " << pass_hash << endl;
+        passwd.clear();
         // TODO: Get the account credentials from the database. Remember password hashes must match. Use Where condition in query
         string path_to_db(getenv("HOME")), pass_from_db;
         path_to_db += "/.taskmgr/users.db";
@@ -340,29 +527,41 @@ int main(void)
 
     string sql_create_users = "CREATE TABLE if not exists users(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEST NOT NULL, password TEXT NOT NULL)"; // SQL query to create a table
     db << sql_create_users;
-
-    printf("\nUser database file already exists!\n");
-    sleep(2);
-    system("clear");
     // Start main program
     TaskManager task;
     while (1)
     {
+        bool exitFlag = false;
         system("clear");
         char input;
         cout << "\t\t\t\tWelcome to Task Manager\n"
              << "\t\t\t\t1. Login\n"
              << "\t\t\t\t2. Sign up\n"
+             << "\t\t\t\t3. Exit\n"
              << "\t\t\t\tInput: ";
         cin >> input;
-        switch(input)
+        switch (input)
         {
-            case '1':
-                task.Authentication();
-                break;
-            case '2':
-                task.AccountCreation();
-                break;
+        case '1':
+            task.Authentication();
+            break;
+        case '2':
+            task.AccountCreation();
+            break;
+        case '3':
+            exitFlag = true;
+            break;
+        default:
+            cout << "Invalid option provided!\n";
+            sleep(2);
+            system("clear");
+            break;
+        }
+        if (exitFlag)
+        {
+            cout << "Goodbye!\n";
+            sleep(2);
+            break;
         }
     }
     return 0;
