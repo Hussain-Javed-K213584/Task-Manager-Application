@@ -309,6 +309,9 @@ class TaskManager
                 {
                     cout << e.what() << endl;
                 }
+                TskVT.clear();
+                TaskID.clear();
+                LoadTask();
                 cout << "\t\t\t\tTask Updated Successfully!\n";
                 break;
             case 2:
@@ -329,6 +332,9 @@ class TaskManager
                 {
                     cout << e.what() << endl;
                 }
+                TskVT.clear();
+                TaskID.clear();
+                LoadTask();
                 break;
             case 3:
             DeadlineAgain:
@@ -338,7 +344,7 @@ class TaskManager
                 cin >> taskID;
                 cout << "\t\t\t\tInput the new deadline: ";
                 getline(cin >> ws, newDeadline);
-                if (!validateTaskID(taskID))
+                if (!validateTaskID(taskID) && !validateDeadline(newDeadline))
                     goto DeadlineAgain;
                 try
                 {
@@ -348,6 +354,9 @@ class TaskManager
                 {
                     cout << e.what() << endl;
                 }
+                TskVT.clear();
+                TaskID.clear();
+                LoadTask();
                 break;
             case 4:
                 exitFlag = true;
