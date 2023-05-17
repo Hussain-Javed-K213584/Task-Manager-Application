@@ -436,7 +436,7 @@ public:
         database dbConn(path_to_db);
     CreationAgain:
         system("clear");
-        cout << "Welcome to Task Manager account creation!\nInput your username: ";
+        cout << setw(70) << "Welcome to Task Manager account creation!\nInput your username: ";
         getline(cin >> ws, username);
         try
         {
@@ -450,10 +450,10 @@ public:
         }
         catch (const exception &e)
         {
-            cout << "Username is available\n";
+            cout << setw(70) << "Username is available\n";
         }
         SetEcho(false);
-        cout << "Please choose a password: ";
+        cout << setw(70) << "Please choose a password: ";
         getline(cin >> ws, passwd);
         SetEcho();
         cout << endl;
@@ -469,7 +469,6 @@ public:
         dbConn << sql_query
                << username
                << pass_hash;
-        cout << "Execution successfull!\n";
         // TODO: Create user's database file to hold tasks
         database userConn(getCurrentDatabasePath());
         // TODO: Create user's table
@@ -477,12 +476,14 @@ public:
                                                                              "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, task TEXT, priority INTEGER, "
                                                                              "creation_date TEXT NOT NULL, deadline TEXT NOT NULL);";
         userConn << sqlQueryDatabase;
+        cout << setw(70) << "Account created successfully\n";
+        sleep(2);
     }
 
     void Authentication() // Function responsible for signing users in
     {
     LoginAgain:
-        cout << "Input your username: ";
+        cout << setw(70) << "Input your username: ";
         getline(cin >> ws, username);
         if (!Validate(username))
         {
@@ -490,7 +491,7 @@ public:
             exit(1);
         }
         SetEcho(false);
-        cout << "Input your password: ";
+        cout << setw(70) << "Input your password: ";
         getline(cin >> ws, passwd);
         SetEcho();
         cout << endl;
@@ -559,11 +560,11 @@ int main(void)
         bool exitFlag = false;
         system("clear");
         char input;
-        cout << "\t\t\t\tWelcome to Task Manager\n"
-             << "\t\t\t\t1. Login\n"
-             << "\t\t\t\t2. Sign up\n"
-             << "\t\t\t\t3. Exit\n"
-             << "\t\t\t\tInput: ";
+        cout << setw(70) << "Welcome to Task Manager\n"
+             << setw(70) << "1. Login\n"
+             << setw(70) << "2. Sign up\n"
+             << setw(70) << "3. Exit\n"
+             << setw(70) << "Input: ";
         cin >> input;
         switch (input)
         {
@@ -577,14 +578,14 @@ int main(void)
             exitFlag = true;
             break;
         default:
-            cout << "Invalid option provided!\n";
+            cout << setw(70) << "Invalid option provided!\n";
             sleep(2);
             system("clear");
             break;
         }
         if (exitFlag)
         {
-            cout << "Goodbye!\n";
+            cout << setw(70) << "Goodbye!\n";
             sleep(2);
             break;
         }
