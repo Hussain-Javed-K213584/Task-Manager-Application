@@ -237,9 +237,12 @@ class TaskManager
             DELETETASKAGAIN:
                 system("clear");
                 printUserTask();
+                cout << "You can input '0' to return\n";
                 cout << "Input the task ID: ";
                 cin >> taskId;
-                if (!validateTaskID(taskId))
+                if (taskId == 0)
+                    break;
+                else if (!validateTaskID(taskId))
                     goto DELETETASKAGAIN;
                 try
                 {
@@ -382,11 +385,13 @@ class TaskManager
         {
             system("clear");
             printUserTask();
-            cout << "\t\t\t\tHello " + username + "\n\t\t\t\tWhat is on your mind?\n";
-            cout << "\t\t\t\t1. Add Task\n"
-                 << "\t\t\t\t2. Remove Task\n"
-                 << "\t\t\t\t3. Update task\n"
-                 << "\t\t\t\t4. Exit\n";
+            cout << setw(40) << "Hello " + username + '\n'
+                << setw(40) << "What is on your mind?\n";
+            cout << setw(40) << "1. Add Task\n"
+                 << setw(40) << "2. Remove Task\n"
+                 << setw(40) << "3. Update task\n"
+                 << setw(40) << "4. Exit\n\n"
+                 << setw(40) << "Input: ";
             short input;
             cin >> input;
             switch (input)
@@ -483,6 +488,7 @@ public:
     void Authentication() // Function responsible for signing users in
     {
     LoginAgain:
+        system("clear");
         cout << setw(70) << "Input your username: ";
         getline(cin >> ws, username);
         if (!Validate(username))
@@ -561,10 +567,10 @@ int main(void)
         system("clear");
         char input;
         cout << setw(70) << "Welcome to Task Manager\n"
-             << setw(70) << "1. Login\n"
-             << setw(70) << "2. Sign up\n"
-             << setw(70) << "3. Exit\n"
-             << setw(70) << "Input: ";
+             << setw(60) << "1. Login\n"
+             << setw(62) << "2. Sign up\n"
+             << setw(60) << "3. Exit\n\n"
+             << setw(60) << "Input: ";
         cin >> input;
         switch (input)
         {
