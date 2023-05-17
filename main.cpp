@@ -106,7 +106,8 @@ class TaskManager
     {
         database lastEntryLoader(getCurrentDatabasePath());
         string selectQuery = "SELECT id, task, priority, creation_date, deadline FROM " + username + " WHERE id ="
-        "(SELECT max(id) FROM " + username + ");";
+                                                                                                     "(SELECT max(id) FROM " +
+                             username + ");";
         try
         {
             lastEntryLoader << selectQuery // taskCounter has id of last inserted entry
@@ -181,9 +182,8 @@ class TaskManager
                         << currentTimestamp
                         << deadline;
         loadLastEntry(); // Loads the recently added task in the vector
-        sort(TskVT.begin(), TskVT.end(), [](auto const &t1, auto const &t2){
-            return get<2>(t1) > get<2>(t2);
-        });
+        sort(TskVT.begin(), TskVT.end(), [](auto const &t1, auto const &t2)
+             { return get<2>(t1) > get<2>(t2); });
     }
     /*
         This function uses the betty printer library (include link here)
@@ -199,7 +199,7 @@ class TaskManager
         tp.AddColumn("Creation Date", 40);
         tp.AddColumn("Deadline", 40);
         tp.PrintHeader();
-        //auto TimeStampIter = timeStampVector.begin(), deadlineIter = deadlineVector.begin();
+        // auto TimeStampIter = timeStampVector.begin(), deadlineIter = deadlineVector.begin();
         for (auto i = TskVT.begin(); i != TskVT.end(); i++)
         {
             tp << get<0>(*i) << get<1>(*i) << get<2>(*i) << get<3>(*i) << get<4>(*i);
@@ -372,7 +372,7 @@ class TaskManager
     */
     void CalendarViewOfTheMonth()
     {
-        //TODO: Implement a calendar view
+        // TODO: Implement a calendar view
     }
     // Driver code to manage tasks
     void taskManaging()
@@ -432,10 +432,26 @@ public:
         string path_to_folder(getenv("HOME"));
         path_to_folder += "/.taskmgr/";
         string pass_hash;
+        string tempUser;
         database dbConn(path_to_db);
     CreationAgain:
+        system("clear");
         cout << "Welcome to Task Manager account creation!\nInput your username: ";
         getline(cin >> ws, username);
+        try
+        {
+            dbConn << "SELECT username FROM users WHERE username == ?;" << username >> tempUser;
+            if (tempUser == username)
+            {
+                cout << setw(10) << "Username already exists!!\n";
+                sleep(3);
+                goto CreationAgain;
+            }
+        }
+        catch (const exception &e)
+        {
+            cout << "Username is available\n";
+        }
         SetEcho(false);
         cout << "Please choose a password: ";
         getline(cin >> ws, passwd);
